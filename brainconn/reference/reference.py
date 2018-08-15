@@ -4,7 +4,7 @@ Methods for generating or latticizing graphs.
 from __future__ import division, print_function
 import numpy as np
 from ..clustering import number_of_components
-from ..utils import BCTParamError, binarize
+from ..utils import binarize
 from ..utils import pick_four_unique_nodes_quickly
 
 
@@ -252,10 +252,10 @@ def latmio_und_connected(R, itr, D=None):
         number of actual rewirings carried out
     """
     if not np.all(R == R.T):
-        raise BCTParamError("Input must be undirected")
+        raise ValueError('Input must be an undirected matrix')
 
     if number_of_components(R) > 1:
-        raise BCTParamError("Input is not connected")
+        raise RunTimeError("Input is not connected")
 
     n = len(R)
 
@@ -641,8 +641,8 @@ def makerandCIJdegreesfixed(inv, outv):
             tried = set()
             while True:
                 if len(tried) == k:
-                    raise BCTParamError('Could not resolve the given '
-                                        'in and out vectors')
+                    raise RunTimeError('In-degree matrix is equal to'
+                                       'out matrix. Unresolvable!')
                 switch = np.random.randint(k)
                 while switch in tried:
                     switch = np.random.randint(k)
@@ -807,9 +807,9 @@ def maketoeplitzCIJ(n, k, s):
         CIJ = (np.random.random((n, n)) < template)
         itr += 1
         if itr > 10000:
-            raise BCTParamError('Infinite loop was caught generating toeplitz '
-                                'matrix.  This means the matrix could not be '
-                                'resolved with the specified parameters.')
+            raise RunTimeError('Entered inifite loop generateing toeplitz'
+                               'matrix. Toeplitz matrix cannot be resolved with'
+                               'specified parameters.')
 
     return CIJ
 
@@ -977,7 +977,7 @@ def null_model_und_sign(W, bin_swaps=5, wei_freq=.1):
         (such as the Kolmogorov-Smirnov test) if desired.
     """
     if not np.all(W == W.T):
-        raise BCTParamError("Input must be undirected")
+        raise ValueError('Input must be an undirected matrix')
     W = W.copy()
     n = len(W)
     np.fill_diagonal(W, 0)  # clear diagonal
@@ -1240,10 +1240,10 @@ def randmio_und_connected(R, itr):
         number of actual rewirings carried out
     """
     if not np.all(R == R.T):
-        raise BCTParamError("Input must be undirected")
+        raise ValueError('Input must be an undirected matrix')
 
     if number_of_components(R) > 1:
-        raise BCTParamError("Input is not connected")
+        raise RunTimeError("Input is not connected")
 
     R = R.copy()
     n = len(R)
@@ -1408,7 +1408,7 @@ def randmio_und(R, itr):
         number of actual rewirings carried out
     """
     if not np.all(R == R.T):
-        raise BCTParamError("Input must be undirected")
+        raise ValueError('Input must be an undirected matrix')
     R = R.copy()
     n = len(R)
     i, j = np.where(np.tril(R))
@@ -1615,8 +1615,7 @@ def randomizer_bin_und(R, alpha):
     """
     R = binarize(R, copy=True)  # binarize
     if not np.all(R == R.T):
-        raise BCTParamError(
-            'randomizer_bin_und only takes undirected matrices')
+        raise ValueError('randomizer_bin_und requires undirected matrices')
 
     ax = len(R)
     nr_poss_edges = (np.dot(ax, ax) - ax) / 2  # find maximum possible edges
@@ -1650,7 +1649,8 @@ def randomizer_bin_und(R, alpha):
         k = len(i)
 
     if k == 0 or k >= (nr_poss_edges - 1):
-        raise BCTParamError("No possible randomization")
+        raise RunTimeError('Cannot generate randomized network.'
+                           'Either zero or too many possible edges.')
 
     for it in range(k):
         if np.random.random() > alpha:

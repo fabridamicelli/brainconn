@@ -5,11 +5,6 @@ from __future__ import division, print_function
 import numpy as np
 import os.path as op
 
-
-class BCTParamError(RuntimeError):
-    pass
-
-
 def get_resource_path():
     """
     Returns the path to general resources, terminated with separator. Resources

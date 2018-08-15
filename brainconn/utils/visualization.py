@@ -3,8 +3,6 @@ Tools for visualizing graphs.
 """
 from __future__ import division, print_function
 import numpy as np
-from .misc import BCTParamError
-
 
 def adjacency_plot_und(A, coor, tube=False):
     """
@@ -178,8 +176,8 @@ def align_matrices(m1, m2, dfun='sqrdiff', verbose=False, H=1e6, Texp=1,
     """
     n = len(m1)
     if n < 2:
-        raise BCTParamError("align_matrix will infinite loop on a singleton "
-                            "or null matrix.")
+        raise ValueError('Length of align_matrix is less than 2.'
+                         'A singleton/null matrix will infinite loop')
 
     # define maxcost (greatest possible difference) and lowcost
     if dfun in ('absdiff', 'absdff'):
@@ -194,7 +192,8 @@ def align_matrices(m1, m2, dfun='sqrdiff', verbose=False, H=1e6, Texp=1,
                             np.sqrt(np.dot(m1.flat, m1.flat) *
                             np.dot(m2.flat, m2.flat))) / maxcost
     else:
-        raise BCTParamError('dfun must be absdiff or sqrdiff or cosang')
+        raise ValueError("dfun must be:"
+                         "either 'abasdiff', 'sqrdiff', or 'cosang'")
 
     mincost = lowcost
     anew = np.arange(n)
@@ -293,9 +292,8 @@ def backbone_wu(CIJ, avgdeg):
     """
     n = len(CIJ)
     if not np.all(CIJ == CIJ.T):
-        raise BCTParamError('backbone_wu can only be computed for undirected '
-                            'matrices.  If your matrix is has noise, correct '
-                            'it with np.around')
+        raise ValueError('backbone_wu requires an undirected input matrix')
+
     CIJtree = np.zeros((n, n))
 
     # find strongest edge (if multiple edges are tied, use only first one)
@@ -438,7 +436,7 @@ def reorderMAT(m, H=5000, cost='line'):
     elif cost == 'circ':
         profile = stats.norm.pdf(range(1, n + 1), n / 2, n / 4)[::-1]
     else:
-        raise BCTParamError('dfun must be line or circ')
+        raise ValueError("dfun must be: either 'line' or 'circ'")
     costf = linalg.toeplitz(profile, r=profile)
 
     lowcost = np.sum(costf * m)
@@ -527,8 +525,8 @@ def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3,
     from scipy import linalg, stats
     n = len(m1)
     if n < 2:
-        raise BCTParamError("align_matrix will infinite loop on a singleton "
-                            "or null matrix.")
+        raise ValueError('Length of connection_matrix is less than 2.'
+                         'A singleton/null matrix will infinite loop')
 
     # generate cost function
     if cost == 'line':
@@ -537,7 +535,7 @@ def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3,
         profile = stats.norm.pdf(
             range(1, n + 1), loc=n / 2, scale=n / 4)[::-1]
     else:
-        raise BCTParamError('cost must be line or circ')
+        raise ValueError("cost mst be either 'line' or 'circ'")
 
     costf = linalg.toeplitz(profile, r=profile) * np.logical_not(np.eye(n))
     costf /= np.sum(costf)

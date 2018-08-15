@@ -4,7 +4,7 @@ Metrics which measure similarity of nodes in graphs.
 from __future__ import division, print_function
 import numpy as np
 from ..degree import degrees_dir, degrees_und
-from ..utils import BCTParamError, binarize
+from ..utils import binarize
 
 
 def edge_nei_overlap_bd(CIJ):
@@ -349,8 +349,8 @@ def corr_flat_und(a1, a2):
     """
     n = len(a1)
     if len(a2) != n:
-        raise BCTParamError("Cannot calculate flattened correlation on "
-                            "matrices of different size")
+        raise ValueError('Input matrices are not the same size.'
+                         'Cannot calcuate flattened correlation.')
     triu_ix = np.where(np.triu(np.ones((n, n)), 1))
     return np.corrcoef(a1[triu_ix].flat, a2[triu_ix].flat)[0][1]
 
@@ -374,7 +374,7 @@ def corr_flat_dir(a1, a2):
     """
     n = len(a1)
     if len(a2) != n:
-        raise BCTParamError("Cannot calculate flattened correlation on "
-                            "matrices of different size")
+        raise ValueError('Input matrices are not the same size.'
+                         'Cannot calcuate flattened correlation.')
     ix = np.logical_not(np.eye(n))
     return np.corrcoef(a1[ix].flat, a2[ix].flat)[0][1]

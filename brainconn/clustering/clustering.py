@@ -5,7 +5,7 @@ from __future__ import division, print_function
 import numpy as np
 from ..modularity import modularity_louvain_und_sign
 from ..distance import breadthdist
-from ..utils import cuberoot, BCTParamError, dummyvar, binarize
+from ..utils import cuberoot, dummyvar, binarize
 
 
 def agreement(ci, buffsz=1000):
@@ -444,9 +444,7 @@ def get_components(A, no_depend=False):
     """
 
     if not np.all(A == A.T):  # ensure matrix is undirected
-        raise BCTParamError('get_components can only be computed for '
-                            'undirected matrices.  If your matrix is noisy, '
-                            'correct it with np.around')
+        raise ValueError('get_components requires an undirected matrix')
 
     A = binarize(A, copy=True)
     n = len(A)
@@ -514,9 +512,7 @@ def get_components_old(A, no_depend=False):
     # nonsquare matrices cannot be symmetric; no need to check
 
     if not np.all(A == A.T):  # ensure matrix is undirected
-        raise BCTParamError('get_components can only be computed for '
-                            'undirected matrices.  If your matrix is noisy, '
-                            'correct it with np.around')
+        raise ValueError('get_components requires an undirected matrix')
 
     A = binarize(A, copy=True)
     n = len(A)

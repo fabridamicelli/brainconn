@@ -5,7 +5,6 @@ from __future__ import division, print_function
 import numpy as np
 
 from .due import due, Doi
-from .utils import BCTParamError
 from .clustering import get_components
 
 # FIXME considerable gains could be realized using vectorization, although
@@ -131,19 +130,19 @@ def nbs_bct(x, y, thresh, k=1000, tail='both', paired=False, verbose=False):
         else:
             return t
 
-    if tail not in ('both', 'left', 'right'):
-        raise BCTParamError('Tail must be both, left, right')
+    if ('both', 'left', 'right') not in tail:
+        raise ValueError("tail must be: either 'both', 'left', or 'right'")
 
     ix, jx, nx = x.shape
     iy, jy, ny = y.shape
 
     if not ix == jx == iy == jy:
-        raise BCTParamError('Population matrices are of inconsistent size')
+        raise ValueError('Input population matrices must be equal in size')
     else:
         n = ix
 
     if paired and nx != ny:
-        raise BCTParamError('Population matrices must be an equal size')
+        raise ValueError('Input population matrices must be equal in size')
 
     # only consider upper triangular edges
     ixes = np.where(np.triu(np.ones((n, n)), 1))
@@ -172,7 +171,7 @@ def nbs_bct(x, y, thresh, k=1000, tail='both', paired=False, verbose=False):
     ind_t, = np.where(t_stat > thresh)
 
     if len(ind_t) == 0:
-        raise BCTParamError("Unsuitable threshold")
+        raise ValueError('A suitable t_stat threshold was not provided')
 
     # suprathreshold adjacency matrix
     adj = np.zeros((n, n))
@@ -200,7 +199,7 @@ def nbs_bct(x, y, thresh, k=1000, tail='both', paired=False, verbose=False):
         max_sz = np.max(sz_links)
     else:
         # max_sz=0
-        raise BCTParamError('True matrix is degenerate')
+        raise ValueErro('Size of true matrix is zero - Degenerate!')
     print('max component size is %i' % max_sz)
 
     # estimate empirical null distribution of maximum component size by
