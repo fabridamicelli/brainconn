@@ -285,3 +285,21 @@ def autofix(W, copy=True):
         W = np.around(W, decimals=5)
 
     return W
+
+
+def check_mtx_fmt(array):
+    """
+    Checks format of array to see if it is binary
+    and the directionality of the input matrix
+    """
+    bin_bool = len(np.unique(array))
+    if bin_bool > 2:
+        bin_status = 'wei'
+    elif bin_bool == 2:
+        bin_status = 'bin'
+    dir_bool = np.allclose(array, array.T, atol=1e-99)
+    if dir_bool:
+        direction = 'und'
+    elif not dir_bool:
+        direction = 'dir'
+    return bin_status, direction
