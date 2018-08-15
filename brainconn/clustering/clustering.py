@@ -6,6 +6,7 @@ import numpy as np
 from ..modularity import modularity_louvain_und_sign
 from ..distance import breadthdist
 from ..utils import cuberoot, BCTParamError, dummyvar, binarize
+from ..due import due, BibTeX
 
 
 def agreement(ci, buffsz=1000):
@@ -559,6 +560,17 @@ def number_of_components(A):
     return len(csizes)
 
 
+@due.dcite(BibTeX("""
+    @article{luce1949method,
+      title={A method of matrix analysis of group structure},
+      author={Luce, R Duncan and Perry, Albert D},
+      journal={Psychometrika},
+      volume={14},
+      number={2},
+      pages={95--116},
+      year={1949},
+      publisher={Springer}
+    }"""), description='Introduces transitivity for binary graphs.')
 def transitivity_bd(A):
     """
     Transitivity is the ratio of 'triangles to triplets' in the network.

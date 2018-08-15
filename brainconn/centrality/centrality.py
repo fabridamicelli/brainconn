@@ -6,8 +6,11 @@ import numpy as np
 from ..core import kcore_bd, kcore_bu
 from ..distance import reachdist
 from ..utils import invert
+from ..due import due, Doi, BibTeX
 
 
+@due.dcite(Doi('10.2307/3033543'),
+           description='First formal description of betweenness centrality.')
 def betweenness_bin(G):
     """
     Node betweenness centrality is the fraction of all shortest paths in
@@ -141,9 +144,17 @@ def betweenness_wei(G):
     return BC
 
 
+@due.dcite(BibTeX("""@article{shannon1948mathematical,
+      title={A mathematical theory of communication},
+      author={Shannon, Claude Elwood},
+      journal={The Bell System Technical Journal},
+      volume={27},
+      pages={379--423},
+      year={1948}
+  }"""), description='Citation for the Shannon entropy.')
 def diversity_coef_sign(W, ci):
     """
-    The Shannon-entropy based diversity coefficient measures the diversity
+    The Shannon entropy-based diversity coefficient measures the diversity
     of intermodular connections of individual nodes and ranges from 0 to 1.
 
     Parameters
@@ -333,6 +344,8 @@ def edge_betweenness_wei(G):
     return EBC, BC
 
 
+@due.dcite(Doi('10.1016/j.socnet.2007.04.002'),
+           description='Discusses eigenvector centrality')
 def eigenvector_centrality_und(CIJ):
     """
     Eigenector centrality is a self-referential measure of centrality:
@@ -409,6 +422,8 @@ def erange(CIJ):
     return Erange, eta, Eshort, fs
 
 
+@due.dcite(Doi('10.1073/pnas.0701519104'),
+           description='Introduces the flow coefficient.')
 def flow_coef_bd(CIJ):
     """
     Computes the flow coefficient for each node and averaged over the
@@ -459,6 +474,8 @@ def flow_coef_bd(CIJ):
     return fc, FC, total_flo
 
 
+@due.dcite(Doi('10.1140/epjb/e2014-40800-7'),
+           description='Introduces the gateway coefficient.')
 def gateway_coef_sign(W, ci, centrality_type='degree'):
     """
     The gateway coefficient is a variant of participation coefficient.
@@ -653,6 +670,8 @@ def module_degree_zscore(W, ci, flag=0):
     return Z
 
 
+@due.dcite(Doi('10.1016/S0169-7552(98)00110-X'),
+           description='Introduces PageRank centrality.')
 def pagerank_centrality(A, d, falff=None):
     """
     The PageRank centrality is a variant of eigenvector centrality. This
