@@ -130,7 +130,7 @@ def nbs_bct(x, y, thresh, k=1000, tail='both', paired=False, verbose=False):
         else:
             return t
 
-    if ('both', 'left', 'right') not in tail:
+    if tail not in ('both', 'left', 'right'):
         raise ValueError("tail must be: either 'both', 'left', or 'right'")
 
     ix, jx, nx = x.shape

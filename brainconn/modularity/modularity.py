@@ -262,8 +262,8 @@ def link_communities(W, type_clustering='single'):
     n = len(W)
     W = normalize(W)
 
-    if ('single', 'complete') not in type_clustering:
-        raise ValueError("Unrecognized clustering type."\
+    if type_clustering not in ('single', 'complete'):
+        raise ValueError("Unrecognized clustering type."
                          "Must be 'single' or 'complete'.")
 
     # set diagonal to mean weights
