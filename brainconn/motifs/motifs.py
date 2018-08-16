@@ -3,7 +3,7 @@ Methods for the identification of recurrent sub-graphs and patterns.
 """
 from __future__ import division, print_function
 import numpy as np
-from ..utils import BCTParamError, binarize
+from ..utils import binarize
 
 motiflib = 'motif34lib.mat'
 
@@ -67,15 +67,15 @@ def find_motif34(m, n=None):
         try:
             m = np.array(m)
         except TypeError:
-            raise BCTParamError('motif matrix must be an array-like')
+            print('Motif matrix must be an array')
         if m.shape[0] == 3:
             M, = np.where(motif3struct_bin(m))
         elif m.shape[0] == 4:
             M, = np.where(motif4struct_bin(m))
         else:
-            raise BCTParamError('motif matrix must be 3x3 or 4x4')
+            raise TypeError('Motif matrix must be 3x3 or 4x4')
     else:
-        raise BCTParamError('Invalid motif class, must be 3, 4, or None')
+        raise TypeError('Invalid motif class, must be 3, 4, or None')
 
     return M
 

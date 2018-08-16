@@ -3,7 +3,7 @@ Metrics which measure separability of modules within graphs.
 """
 from __future__ import division, print_function
 import numpy as np
-from ..utils import BCTParamError, normalize
+from ..utils import normalize
 
 
 def ci2ls(ci):
@@ -111,13 +111,14 @@ def community_louvain(W, gamma=1, ci=None, B='modularity', seed=None):
     s = np.sum(W)
 
     if np.min(W) < -1e-10:
-        raise BCTParamError('adjmat must not contain negative weights')
+        raise ValueError('Adjacency matrix cannot contain negative weights')
 
     if ci is None:
         ci = np.arange(n) + 1
     else:
         if len(ci) != n:
-            raise BCTParamError('initial ci vector size must equal N')
+            raise ValueError('Length of community affiliation vector'
+                             'must equal length of adjacency matrix')
         _, ci = np.unique(ci, return_inverse=True)
         ci += 1
     Mb = ci.copy()
@@ -136,12 +137,10 @@ def community_louvain(W, gamma=1, ci=None, B='modularity', seed=None):
             B1 = 0
 
     elif np.min(W) < -1e-10:
-        raise BCTParamError('Input connection matrix contains negative '
-                            'weights but objective function dealing with '
-                            'negative weights was not selected')
+        raise ValueError('Adjacency matrix cannot contain negative weights')
 
     if B == 'potts' and np.any(np.logical_not(np.logical_or(W == 0, W == 1))):
-        raise BCTParamError('Potts hamiltonian requires binary input matrix')
+        raise TypeError('Potts hamiltonian requires binary input matrix')
 
     if B == 'modularity':
         B = W - gamma * np.outer(np.sum(W, axis=1), np.sum(W, axis=0)) / s
@@ -154,12 +153,13 @@ def community_louvain(W, gamma=1, ci=None, B='modularity', seed=None):
     else:
         try:
             B = np.array(B)
-        except BCTParamError:
+        except RuntimeError:
             print('unknown objective function type')
 
         if B.shape != W.shape:
-            raise BCTParamError('objective function matrix does not match '
-                                'size of adjacency matrix')
+            raise ValueError('Size of objective function and adjacency'
+                             'matrices must match')
+
         if not np.allclose(B, B.T):
             print('Warning: objective function matrix not symmetric, '
                   'symmetrizing')
@@ -183,8 +183,8 @@ def community_louvain(W, gamma=1, ci=None, B='modularity', seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise BCTParamError('Modularity infinite loop style G. '
-                                    'Please contact the developer.')
+                raise RuntimeError('Entered an infite loop (G) - Aborted!')
+
             flag = False
             for u in np.random.permutation(n):
                 ma = Mb[u] - 1
@@ -263,7 +263,8 @@ def link_communities(W, type_clustering='single'):
     W = normalize(W)
 
     if type_clustering not in ('single', 'complete'):
-        raise BCTParamError('Unrecognized clustering type')
+        raise ValueError("Unrecognized clustering type."
+                         "Must be 'single' or 'complete'.")
 
     # set diagonal to mean weights
     np.fill_diagonal(W, 0)
@@ -845,7 +846,7 @@ def modularity_finetune_und_sign(W, qtype='sta', gamma=1, ci=None, seed=None):
     while flag:
         h += 1
         if h > 1000:
-            raise BCTParamError('Modularity infinite loop style D')
+            raise RuntimeError('Entered an Infite Loop (D) - Aborted!')
         flag = False
         for u in np.random.permutation(n):  # loop over nodes in random order
             ma = ci[u] - 1  # current module of u
@@ -935,8 +936,7 @@ def modularity_louvain_dir(W, gamma=1, hierarchy=False, seed=None):
 
     while True:
         if h > 300:
-            raise BCTParamError('Modularity Infinite Loop Style E.  Please '
-                                'contact the developer with this error.')
+            raise RuntimeError('Entered an Infite Loop (E) - Aborted!')
         k_o = np.sum(W, axis=1)  # node in/out degrees
         k_i = np.sum(W, axis=0)
         km_o = k_o.copy()  # module in/out degrees
@@ -951,8 +951,8 @@ def modularity_louvain_dir(W, gamma=1, hierarchy=False, seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise BCTParamError('Modularity Infinite Loop Style F. Please '
-                                    'contact the developer with this error.')
+                raise RuntimeError('Entered an Infite Loop (F) - Aborted!')
+
             flag = False
 
             # loop over nodes in random order
@@ -1068,8 +1068,8 @@ def modularity_louvain_und(W, gamma=1, hierarchy=False, seed=None):
 
     while True:
         if h > 300:
-            raise BCTParamError('Modularity Infinite Loop Style B.  Please '
-                                'contact the developer with this error.')
+            raise RuntimeError('Entered an Infite Loop (B) - Aborted!')
+
         k = np.sum(W, axis=0)  # node degree
         Km = k.copy()  # module degree
         Knm = W.copy()  # node-to-module degree
@@ -1081,8 +1081,8 @@ def modularity_louvain_und(W, gamma=1, hierarchy=False, seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise BCTParamError('Modularity Infinite Loop Style C. Please '
-                                    'contact the developer with this error.')
+                raise RuntimeError('Entered an Infite Loop (C) - Aborted!')
+
             flag = False
 
             # loop over nodes in random order
@@ -1225,8 +1225,8 @@ def modularity_louvain_und_sign(W, gamma=1, qtype='sta', seed=None):
     q = [-1, 0]  # hierarchical modularity values
     while q[h] - q[h - 1] > 1e-10:
         if h > 300:
-            raise BCTParamError('Modularity Infinite Loop Style A.  Please '
-                                'contact the developer with this error.')
+            raise RuntimeError('Entered an Infite Loop (A) - Aborted!')
+
         kn0 = np.sum(W0, axis=0)  # positive node degree
         kn1 = np.sum(W1, axis=0)  # negative node degree
         km0 = kn0.copy()  # positive module degree
@@ -1240,9 +1240,8 @@ def modularity_louvain_und_sign(W, gamma=1, qtype='sta', seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise BCTParamError('Infinite Loop was detected and stopped. '
-                                    'This was probably caused by passing in a '
-                                    'directed matrix.')
+                raise RuntimeError('Entered an Infite Loop - Aborted!'
+                                   'May have passed a directed matrix.')
             flag = False
             # loop over nodes in random order
             for u in np.random.permutation(nh):

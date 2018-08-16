@@ -7,7 +7,6 @@ import numpy as np
 from ..similarity import matching_ind
 from ..clustering import clustering_coef_bu
 from ..centrality import betweenness_bin
-from ..utils import BCTParamError
 
 
 def generative_model(A, D, m, eta, gamma=None, model_type='matching',
@@ -79,8 +78,7 @@ def generative_model(A, D, m, eta, gamma=None, model_type='matching',
     # Its a list of eta values paired with gamma values.
     # To try 3 eta and 3 gamma pairs, should use 9 list values.
     if len(eta) != len(gamma):
-        raise BCTParamError('Eta and gamma hyperparameters must be lists of '
-                            'the same size')
+        raise ValueError('Eta and gamma must be lists of the same size')
 
     nparams = len(eta)
 
@@ -404,7 +402,7 @@ def generative_model(A, D, m, eta, gamma=None, model_type='matching',
             mv1, mv2 = model_var, model_var
 
         if mv1 != mv2:
-            raise BCTParamError('Too many hyperparameters specified')
+            raise ValueError('Model variables/hyperparameters must be equal')
 
         if mv1 in ('powerlaw', 'power_law'):
             Fd = D ** eta

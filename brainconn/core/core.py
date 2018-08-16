@@ -5,7 +5,6 @@ from __future__ import division, print_function
 import numpy as np
 from ..degree import degrees_dir, degrees_und, strengths_dir, strengths_und
 from ..degree import strengths_und_sign
-from ..utils import BCTParamError
 
 
 def assortativity_bin(CIJ, flag=0):
@@ -189,7 +188,7 @@ def core_periphery_dir(W, gamma=1, C0=None):
     while flag:
         it += 1
         if it > 100:
-            raise BCTParamError('Infinite Loop aborted')
+            raise RuntimeError('Entered an infinite loop - Aborted!')
 
         flag = False
         # initial node indices
