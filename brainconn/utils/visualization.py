@@ -4,6 +4,7 @@ Tools for visualizing graphs.
 from __future__ import division, print_function
 import numpy as np
 
+
 def adjacency_plot_und(A, coor, tube=False):
     """
     This function in matlab is a visualization helper which translates an

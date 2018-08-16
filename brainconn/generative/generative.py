@@ -402,7 +402,7 @@ def generative_model(A, D, m, eta, gamma=None, model_type='matching',
             mv1, mv2 = model_var, model_var
 
         if mv1 != mv2:
-            raise ValueError('Model variables - hyperparameters - must be equal')
+            raise ValueError('Model variables/hyperparameters must be equal')
 
         if mv1 in ('powerlaw', 'power_law'):
             Fd = D ** eta

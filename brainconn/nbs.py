@@ -199,7 +199,7 @@ def nbs_bct(x, y, thresh, k=1000, tail='both', paired=False, verbose=False):
         max_sz = np.max(sz_links)
     else:
         # max_sz=0
-        raise ValueErro('Size of true matrix is zero - Degenerate!')
+        raise ValueError('Size of true matrix is zero - Degenerate!')
     print('max component size is %i' % max_sz)
 
     # estimate empirical null distribution of maximum component size by

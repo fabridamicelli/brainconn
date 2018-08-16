@@ -188,7 +188,7 @@ def core_periphery_dir(W, gamma=1, C0=None):
     while flag:
         it += 1
         if it > 100:
-            raise RunTimeError('Entered an infinite loop - Aborted!')
+            raise RuntimeError('Entered an infinite loop - Aborted!')
 
         flag = False
         # initial node indices

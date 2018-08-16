@@ -117,7 +117,7 @@ def community_louvain(W, gamma=1, ci=None, B='modularity', seed=None):
         ci = np.arange(n) + 1
     else:
         if len(ci) != n:
-            raise ValueError('Length of community affiliation vector'\
+            raise ValueError('Length of community affiliation vector'
                              'must equal length of adjacency matrix')
         _, ci = np.unique(ci, return_inverse=True)
         ci += 1
@@ -153,11 +153,11 @@ def community_louvain(W, gamma=1, ci=None, B='modularity', seed=None):
     else:
         try:
             B = np.array(B)
-        except RunTimeError:
+        except RuntimeError:
             print('unknown objective function type')
 
         if B.shape != W.shape:
-            raise ValueError('Size of objective function and adjacency'\
+            raise ValueError('Size of objective function and adjacency'
                              'matrices must match')
 
         if not np.allclose(B, B.T):
@@ -183,7 +183,7 @@ def community_louvain(W, gamma=1, ci=None, B='modularity', seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise RunTimeError('Entered an Infite Loop (Type G) - Aborted!')
+                raise RuntimeError('Entered an infite loop (G) - Aborted!')
 
             flag = False
             for u in np.random.permutation(n):
@@ -846,7 +846,7 @@ def modularity_finetune_und_sign(W, qtype='sta', gamma=1, ci=None, seed=None):
     while flag:
         h += 1
         if h > 1000:
-            raise RunTimeError('Entered an Infite Loop (Type D) - Aborted!')
+            raise RuntimeError('Entered an Infite Loop (D) - Aborted!')
         flag = False
         for u in np.random.permutation(n):  # loop over nodes in random order
             ma = ci[u] - 1  # current module of u
@@ -936,7 +936,7 @@ def modularity_louvain_dir(W, gamma=1, hierarchy=False, seed=None):
 
     while True:
         if h > 300:
-            raise RunTimeError('Entered an Infite Loop (Type E) - Aborted!')
+            raise RuntimeError('Entered an Infite Loop (E) - Aborted!')
         k_o = np.sum(W, axis=1)  # node in/out degrees
         k_i = np.sum(W, axis=0)
         km_o = k_o.copy()  # module in/out degrees
@@ -951,7 +951,7 @@ def modularity_louvain_dir(W, gamma=1, hierarchy=False, seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise RunTimeError('Entered an Infite Loop (Type F) - Aborted!')
+                raise RuntimeError('Entered an Infite Loop (F) - Aborted!')
 
             flag = False
 
@@ -1068,7 +1068,7 @@ def modularity_louvain_und(W, gamma=1, hierarchy=False, seed=None):
 
     while True:
         if h > 300:
-            raise RunTimeError('Entered an Infite Loop (Type B) - Aborted!')
+            raise RuntimeError('Entered an Infite Loop (B) - Aborted!')
 
         k = np.sum(W, axis=0)  # node degree
         Km = k.copy()  # module degree
@@ -1081,7 +1081,7 @@ def modularity_louvain_und(W, gamma=1, hierarchy=False, seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise RunTimeError('Entered an Infite Loop (Type C) - Aborted!')
+                raise RuntimeError('Entered an Infite Loop (C) - Aborted!')
 
             flag = False
 
@@ -1225,7 +1225,7 @@ def modularity_louvain_und_sign(W, gamma=1, qtype='sta', seed=None):
     q = [-1, 0]  # hierarchical modularity values
     while q[h] - q[h - 1] > 1e-10:
         if h > 300:
-            raise RunTimeError('Entered an Infite Loop (Type A) - Aborted!')
+            raise RuntimeError('Entered an Infite Loop (A) - Aborted!')
 
         kn0 = np.sum(W0, axis=0)  # positive node degree
         kn1 = np.sum(W1, axis=0)  # negative node degree
@@ -1240,7 +1240,7 @@ def modularity_louvain_und_sign(W, gamma=1, qtype='sta', seed=None):
         while flag:
             it += 1
             if it > 1000:
-                raise RunTimeError('Entered an Infite Loop - Aborted!'\
+                raise RuntimeError('Entered an Infite Loop - Aborted!'
                                    'May have passed a directed matrix.')
             flag = False
             # loop over nodes in random order

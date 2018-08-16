@@ -255,7 +255,7 @@ def latmio_und_connected(R, itr, D=None):
         raise ValueError('Input must be an undirected matrix')
 
     if number_of_components(R) > 1:
-        raise RunTimeError("Input is not connected")
+        raise RuntimeError("Input is not connected")
 
     n = len(R)
 
@@ -641,7 +641,7 @@ def makerandCIJdegreesfixed(inv, outv):
             tried = set()
             while True:
                 if len(tried) == k:
-                    raise RunTimeError('In-degree matrix is equal to'
+                    raise RuntimeError('In-degree matrix is equal to'
                                        'out matrix. Unresolvable!')
                 switch = np.random.randint(k)
                 while switch in tried:
@@ -807,8 +807,8 @@ def maketoeplitzCIJ(n, k, s):
         CIJ = (np.random.random((n, n)) < template)
         itr += 1
         if itr > 10000:
-            raise RunTimeError('Entered inifite loop generateing toeplitz'
-                               'matrix. Toeplitz matrix cannot be resolved with'
+            raise RuntimeError('Entered inifite loop generateing toeplitz'
+                               'matrix. Toeplitz mtrx cannot be resolved with'
                                'specified parameters.')
 
     return CIJ
@@ -1243,7 +1243,7 @@ def randmio_und_connected(R, itr):
         raise ValueError('Input must be an undirected matrix')
 
     if number_of_components(R) > 1:
-        raise RunTimeError("Input is not connected")
+        raise RuntimeError("Input is not connected")
 
     R = R.copy()
     n = len(R)
@@ -1649,7 +1649,7 @@ def randomizer_bin_und(R, alpha):
         k = len(i)
 
     if k == 0 or k >= (nr_poss_edges - 1):
-        raise RunTimeError('Cannot generate randomized network.'
+        raise RuntimeError('Cannot generate randomized network.'
                            'Either zero or too many possible edges.')
 
     for it in range(k):
