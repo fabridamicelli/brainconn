@@ -84,7 +84,7 @@ You can see a list of current contributors in the [contributors tab][link_contri
 [link_signupinstructions]: https://help.github.com/articles/signing-up-for-a-new-github-account
 [link_react]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
 [link_issues]: https://github.com/FIU-Neuro/brainconn/issues
-[link_coc]: https://github.com/FIU-Neuro/brainconn/blob/master/Code_of_Conduct.md
+[link_coc]: https://github.com/FIU-Neuro/brainconn/blob/master/CODE_OF_CONDUCT.md
 [link_labels]: https://github.com/FIU-Neuro/brainconn/labels
 [link_discussingissues]: https://help.github.com/articles/discussing-projects-in-issues-and-pull-requests
 
