@@ -1,6 +1,6 @@
 # brainconn (brain connectivity) library
 
-The `brainconn` Python library is a fork of `bctpy`, which in turn in a Python implementation of the `BCT` MATLAB toolbox. `bctpy` was written by [Roan LaPlante](https://github.com/aestrivex) and is a wonderful tool. However, there were certain elements of the implementation that we wanted to change, so we chose to develop independently on a fork, which we renamed to `brainconn` to allow separate releases on PyPi and the like.
+The `brainconn` Python library is a fork of `bctpy`, which in turn is a Python implementation of the `BCT` MATLAB toolbox. `bctpy` was written by [Roan LaPlante](https://github.com/aestrivex) and is a wonderful tool. However, there were certain elements of the implementation that we wanted to change, so we chose to develop independently on a fork, which we renamed to `brainconn` to allow separate releases on PyPi and the like.
 
 [![License: GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build Status](https://travis-ci.org/FIU-Neuro/brainconn.svg?branch=master)](https://travis-ci.org/FIU-Neuro/brainconn)
