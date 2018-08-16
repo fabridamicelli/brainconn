@@ -1,10 +1,11 @@
 # brainconn (brain connectivity) library
 
-The `brainconn` Python library is a fork of `bctpy`, which in turn in a Python implementation of the `BCT` MATLAB toolbox. `bctpy` was written by [Roan LaPlante](https://github.com/aestrivex) and is a wonderful tool. However, there were certain elements of the implementation that we wanted to change, so we chose to develop independently on a fork, which we renamed to `brainconn` to allow separate releases on PyPi and the like.
+The `brainconn` Python library is a fork of `bctpy`, which in turn is a Python implementation of the `BCT` MATLAB toolbox. `bctpy` was written by [Roan LaPlante](https://github.com/aestrivex) and is a wonderful tool. However, there were certain elements of the implementation that we wanted to change, so we chose to develop independently on a fork, which we renamed to `brainconn` to allow separate releases on PyPi and the like.
 
 [![License: GPL v3](https://img.shields.io/badge/license-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build Status](https://travis-ci.org/FIU-Neuro/brainconn.svg?branch=master)](https://travis-ci.org/FIU-Neuro/brainconn)
 [![Codecov](https://codecov.io/gh/FIU-Neuro/brainconn/branch/master/graph/badge.svg)](https://codecov.io/gh/FIU-Neuro/brainconn)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1e2340c0a02d45c1b21e22e8f92f2a35)](https://www.codacy.com/project/tsalo/brainconn/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=FIU-Neuro/brainconn&amp;utm_campaign=Badge_Grade_Dashboard)
 [![Documentation Status](https://readthedocs.org/projects/brainconn/badge/?version=latest)](http://brainconn.readthedocs.io/en/latest/?badge=latest)
 
 ## About
@@ -12,7 +13,7 @@ The `brainconn` Python library is a fork of `bctpy`, which in turn in a Python i
 `brainconn` implements graph theoretic measures in Python.
 
 ### Why graph theory?
-
+because it's coOoOoOoOol ;)
 
 
 ## Copyright information
