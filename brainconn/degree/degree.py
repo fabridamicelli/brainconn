@@ -138,7 +138,7 @@ def strengths_dir(CIJ):
     """
     istr = np.sum(CIJ, axis=0)
     ostr = np.sum(CIJ, axis=1)
-    return istr + ostr
+    return istr, ostr, istr + ostr
 
 
 def strengths_und(CIJ):
