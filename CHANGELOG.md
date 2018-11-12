@@ -1,12 +1,16 @@
-# brainconn 0.0.2 (current)
+# History of changes
 
-- 
+## brainconn 0.0.2 (current)
 
-# brainconn 0.0.1
+- Change structure from single `algorithms` submodule to separated submodules:
+`centrality`, `clustering`, `core`, `degree`, `distance`, `generative`,
+`modularity`, `motifs`, `physical_connectivity`, `reference`, and `similarity`.
+
+## brainconn 0.0.1
 
 - Rename fork of BCT to brainconn for further independent development
 
-# BCT 0.4.1
+## BCT 0.4.1
 
 - Refactor code into multiple files
 - Fix bug in efficiency_bin
@@ -14,12 +18,12 @@
 - Fix bugs in `participation_coef_b*`
 - Add some test cases
 
-# BCT 0.4.0
+## BCT 0.4.0
 
 - Add various new functions from Jan 2015 release of BCT
 - Fix various bugs documented in github issues
 
-# BCT 0.3.3
+## BCT 0.3.3
 
 - Fix small bug in `latmio_und_connected` causing failure for sparse matrices
 - Add non-networkx dependent algorithm to get_components (but less efficient)
@@ -29,7 +33,7 @@
 - Fix some bugs in `modularity_louvain_dir` and related
 - Fix bug in NBS and add optional paired-sample test statistic (sviter)
 
-# BCT 0.3.2
+## BCT 0.3.2
 
 - Change several functions including threshold_proportional and binarize have `copy=True` as default argument
 - Fix bug in `threshold_proportional` where copying behavior did not work symmetric matrices.
@@ -39,16 +43,15 @@
 - Refactor `x[range(n),range(n)]` to `np.fill_diagonal`
 - Fix off-by-one bug in `moduality_[prob/fine]tune_und_sign`
 
-# BCT 0.3.1
+## BCT 0.3.1
 
 - Fix bug in NBS
 - Fix series of bugs in `null_models`
 
-# BCT 0.3
+## BCT 0.3
 
 - Added NBS
 - Added in all of the new functions from the Dec 2013 release of BCT
 - Fixed numerous bugs having to do with indexing errors in modularity
 - Fixed several odd bugs with `clustering_coef`, `efficiency`, `distance`
-
-For the next release, I clearly need a real test suite.
+- For the next release, I clearly need a real test suite.

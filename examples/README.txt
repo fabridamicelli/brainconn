@@ -1,4 +1,4 @@
 .. _examples-index:
 
-Examples
-===================
+Example gallery
+===============

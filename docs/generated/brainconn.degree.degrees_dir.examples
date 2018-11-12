@@ -1,0 +1,22 @@
+
+
+Examples using ``brainconn.degree.degrees_dir``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Degree is another thing with stuff and things.">
+
+.. only:: html
+
+    .. figure:: /auto_examples/degree/images/thumb/sphx_glr_plot_degree_thumb.png
+
+        :ref:`sphx_glr_auto_examples_degree_plot_degree.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+    * :ref:`sphx_glr_auto_examples_degree_plot_degree.py`

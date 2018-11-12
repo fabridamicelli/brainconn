@@ -18,7 +18,8 @@ __version__ = '.'.join(map(str, _ver))
 CLASSIFIERS = ["Development Status :: 4 - Beta",
                "Environment :: X11 Applications",
                "Intended Audience :: Science/Research",
-               "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+               ("License :: OSI Approved :: GNU General Public License v3 or "
+                "later (GPLv3+)"),
                "Natural Language :: English",
                "Programming Language :: Python",
                "Topic :: Scientific/Engineering :: Information Analysis"]
@@ -69,7 +70,8 @@ EXTRA_REQUIRES = {
         'sphinx_rtd_theme',
         'sphinx-argparse',
         'sphinx_gallery',
-        'numpydoc'
+        'numpydoc',
+        'm2r',
     ],
     'tests': TESTS_REQUIRES,
     'duecredit': ['duecredit'],

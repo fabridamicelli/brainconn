@@ -3,7 +3,6 @@ Tools for visualizing graphs.
 """
 from __future__ import division, print_function
 import numpy as np
-from .miscellaneous_utilities import BCTParamError
 
 
 def adjacency_plot_und(A, coor, tube=False):
@@ -60,21 +59,9 @@ def adjacency_plot_und(A, coor, tube=False):
     from mayavi import mlab
 
     n = len(A)
-    nr_edges = (n * n - 1) // 2
-
-    #starts = np.zeros((nr_edges,3))
-    #vecs = np.zeros((nr_edges,3))
-    #adjdat = np.zeros((nr_edges,))
+    # nr_edges = (n * n - 1) // 2
 
     ixes, = np.where(np.triu(np.ones((n, n)), 1).flat)
-
-    # i=0
-    # for r2 in xrange(n):
-    #	for r1 in xrange(r2):
-    #		starts[i,:] = coor[r1,:]
-    #		vecs[i,:] = coor[r2,:] - coor[r1,:]
-    #		adjdat[i,:]
-    #		i+=1
 
     adjdat = A.flat[ixes]
 
@@ -110,8 +97,8 @@ def adjacency_plot_und(A, coor, tube=False):
     vectors.glyph.glyph_source.glyph_position = 'head'
     vectors.actor.property.opacity = .7
     if tube:
-        vectors.glyph.glyph_source.glyph_source = (vectors.glyph.glyph_source.
-                                                   glyph_dict['cylinder_source'])
+        vectors.glyph.glyph_source.glyph_source = \
+            vectors.glyph.glyph_source.glyph_dict['cylinder_source']
         vectors.glyph.glyph_source.glyph_source.radius = 0.015
     else:
         vectors.glyph.glyph_source.glyph_source.glyph_type = 'dash'
@@ -190,8 +177,8 @@ def align_matrices(m1, m2, dfun='sqrdiff', verbose=False, H=1e6, Texp=1,
     """
     n = len(m1)
     if n < 2:
-        raise BCTParamError("align_matrix will infinite loop on a singleton "
-                            "or null matrix.")
+        raise ValueError('Length of align_matrix is less than 2.'
+                         'A singleton/null matrix will infinite loop')
 
     # define maxcost (greatest possible difference) and lowcost
     if dfun in ('absdiff', 'absdff'):
@@ -203,9 +190,11 @@ def align_matrices(m1, m2, dfun='sqrdiff', verbose=False, H=1e6, Texp=1,
     elif dfun == 'cosang':
         maxcost = np.pi / 2
         lowcost = np.arccos(np.dot(m1.flat, m2.flat) /
-                            np.sqrt(np.dot(m1.flat, m1.flat) * np.dot(m2.flat, m2.flat))) / maxcost
+                            np.sqrt(np.dot(m1.flat, m1.flat) *
+                            np.dot(m2.flat, m2.flat))) / maxcost
     else:
-        raise BCTParamError('dfun must be absdiff or sqrdiff or cosang')
+        raise ValueError("dfun must be:"
+                         "either 'abasdiff', 'sqrdiff', or 'cosang'")
 
     mincost = lowcost
     anew = np.arange(n)
@@ -217,7 +206,8 @@ def align_matrices(m1, m2, dfun='sqrdiff', verbose=False, H=1e6, Texp=1,
     # H determines the maximal number of steps (user-provided)
     # Texp determines the steepness of the temperature gradient
     Texp = 1 - Texp / H
-    # T0 sets the initial temperature and scales the energy term (user provided)
+    # T0 sets the initial temperature and scales the energy term (user
+    # provided)
     # Hbrk sets a break point for the stimulation
     Hbrk = H / Hbrk
 
@@ -246,7 +236,8 @@ def align_matrices(m1, m2, dfun='sqrdiff', verbose=False, H=1e6, Texp=1,
             costnew = np.arccos(np.dot(m1.flat, m2atmp.flat) / np.sqrt(
                 np.dot(m1.flat, m1.flat) * np.dot(m2.flat, m2.flat))) / maxcost
 
-        if costnew < lowcost or np.random.random() < np.exp(-(costnew - lowcost) / T):
+        if costnew < lowcost or np.random.random() <\
+                np.exp(-(costnew - lowcost) / T):
             anew = atmp
             lowcost = costnew
             # is this the absolute best?
@@ -254,7 +245,8 @@ def align_matrices(m1, m2, dfun='sqrdiff', verbose=False, H=1e6, Texp=1,
                 amin = anew
                 mincost = lowcost
                 if verbose:
-                    print('step %i ... current lowest cost = %f' % (h, mincost))
+                    print('step {0} ... current lowest cost = '
+                          '{1}'.format(h, mincost))
                 hcnt = 0
             # if the cost is 0 we're done
             if mincost == 0:
@@ -301,13 +293,13 @@ def backbone_wu(CIJ, avgdeg):
     """
     n = len(CIJ)
     if not np.all(CIJ == CIJ.T):
-        raise BCTParamError('backbone_wu can only be computed for undirected '
-                            'matrices.  If your matrix is has noise, correct it with np.around')
+        raise ValueError('backbone_wu requires an undirected input matrix')
+
     CIJtree = np.zeros((n, n))
 
     # find strongest edge (if multiple edges are tied, use only first one)
     i, j = np.where(np.max(CIJ) == CIJ)
-    im = [i[0], i[1]]  # what?  why take two values?  doesnt that mess up multiples?
+    im = [i[0], i[1]]  # why take two values? doesnt that mess up multiples?
     jm = [j[0], j[1]]
 
     # copy into tree graph
@@ -445,7 +437,7 @@ def reorderMAT(m, H=5000, cost='line'):
     elif cost == 'circ':
         profile = stats.norm.pdf(range(1, n + 1), n / 2, n / 4)[::-1]
     else:
-        raise BCTParamError('dfun must be line or circ')
+        raise ValueError("dfun must be: either 'line' or 'circ'")
     costf = linalg.toeplitz(profile, r=profile)
 
     lowcost = np.sum(costf * m)
@@ -476,7 +468,8 @@ def reorderMAT(m, H=5000, cost='line'):
     return M_reordered, m_indices, cost
 
 
-def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3, Hbrk=10):
+def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3,
+                   Hbrk=10):
     """
     This function rearranges the nodes in matrix M1 such that the matrix
     elements are squeezed along the main diagonal.  The function uses a
@@ -533,8 +526,8 @@ def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3, Hbrk
     from scipy import linalg, stats
     n = len(m1)
     if n < 2:
-        raise BCTParamError("align_matrix will infinite loop on a singleton "
-                            "or null matrix.")
+        raise ValueError('Length of connection_matrix is less than 2.'
+                         'A singleton/null matrix will infinite loop')
 
     # generate cost function
     if cost == 'line':
@@ -543,7 +536,7 @@ def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3, Hbrk
         profile = stats.norm.pdf(
             range(1, n + 1), loc=n / 2, scale=n / 4)[::-1]
     else:
-        raise BCTParamError('cost must be line or circ')
+        raise ValueError("cost mst be either 'line' or 'circ'")
 
     costf = linalg.toeplitz(profile, r=profile) * np.logical_not(np.eye(n))
     costf /= np.sum(costf)
@@ -563,7 +556,8 @@ def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3, Hbrk
     # H determines the maximal number of steps (user specified)
     # Texp determines the steepness of the temperature gradient
     Texp = 1 - Texp / H
-    # T0 sets the initial temperature and scales the energy term (user provided)
+    # T0 sets the initial temperature and scales the energy term (user
+    # provided)
     # Hbrk sets a break point for the stimulation
     Hbrk = H / Hbrk
 
@@ -582,7 +576,8 @@ def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3, Hbrk
         atmp[r2] = anew[r1]
         costnew = np.sum((m1[np.ix_(atmp, atmp)]) * costf) / maxcost
         # annealing
-        if costnew < lowcost or np.random.random() < np.exp(-(costnew - lowcost) / T):
+        if costnew < lowcost or np.random.random() <\
+                np.exp(-(costnew - lowcost) / T):
             anew = atmp
             lowcost = costnew
             # is this a new absolute best?
@@ -590,7 +585,8 @@ def reorder_matrix(m1, cost='line', verbose=False, H=1e4, Texp=10, T0=1e-3, Hbrk
                 amin = anew
                 mincost = lowcost
                 if verbose:
-                    print('step %i ... current lowest cost = %f' % (h, mincost))
+                    print('step {0} ... current lowest cost = '
+                          '{1}'.format(h, mincost))
                 hcnt = 0
 
     if verbose:
@@ -715,19 +711,10 @@ def reorder_mod(A, ci):
         # principal dimension.  some within-module orderings
         # may potentially be a little bit out of order.
 
-        # ksmi=knm[ind,:].T[mod_imp[::-1]]
-        # reverse mod_imp to sort by the first column first and so on
-        # print ksmi
-        # for i,sin in enumerate(signs):
-        #	if sin==-1:
-        #		ksmi[i,:]=ksmi[i,:][::-1]
-        # print ksmi
-        # print np.shape(ksmi)
-
         # ^ this is unworkable and wrong, lexsort alone cannot handle the
         # negative indices problem of sortrows.  you would pretty much need
-        # to rewrite sortrows to do lexsort plus negative indices; the algorithm
-        # cant be further simplified.
+        # to rewrite sortrows to do lexsort plus negative indices; the
+        # algorithm cant be further simplified.
 
         ord = np.lexsort(knm[np.ix_(ind, mod_imp[::-1])])
         # ord=np.lexsort(knm[ind,:].T[mod_imp[::-1]])

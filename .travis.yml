@@ -4,12 +4,9 @@ sudo: false
 notifications:
   email: false
 
-python:
-    - "2.7"
-    - "3.6"
-
 matrix:
   include:
+    - python: 2.7
     - python: 3.6
       env:
         - STYLE=1

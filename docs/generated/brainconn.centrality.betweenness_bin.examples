@@ -1,0 +1,22 @@
+
+
+Examples using ``brainconn.centrality.betweenness_bin``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Centrality is a thing with stuff and things.">
+
+.. only:: html
+
+    .. figure:: /auto_examples/centrality/images/thumb/sphx_glr_plot_centrality_thumb.png
+
+        :ref:`sphx_glr_auto_examples_centrality_plot_centrality.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+    * :ref:`sphx_glr_auto_examples_centrality_plot_centrality.py`
